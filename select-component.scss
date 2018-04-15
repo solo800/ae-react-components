@@ -1,0 +1,77 @@
+@import '../_mixins';
+
+.option-list {
+    @include flex-column(flex-start, stretch);
+    @include transition;
+    position: relative;
+    border: convert-px(1) solid get-color(brightest-accent);
+    box-shadow: none;
+    cursor: pointer;
+
+    > .option {
+        @include transition;
+        display: none;
+        padding: 0.4rem 0 0.4rem 0.2rem;
+        box-sizing: border-box;
+        background-color: get-color(dark-accent);
+        color: get-color(light, primary);
+
+        &-title {
+            @extend .option;
+        }
+
+        // states
+        &[show] {
+            display: block;
+        }
+    }
+
+    > .select-icon {
+        @include transition;
+        content: '';
+        position: absolute;
+        top: 0.9rem; // option height is 1 + (.4 * 2) for padding thus move the caret down .9 to center
+        right: 0;
+        transform: translate(-25%, -50%);
+        border-top: convert-px(11) solid #FFC0CB;
+        border-left: convert-px(11) solid transparent;
+        border-right: convert-px(11) solid transparent;
+    }
+
+    // states
+    &:hover {
+        box-shadow: 0 0 0.1rem 0.1rem get-color(brightest-accent);
+    }
+
+    &[open] {
+        z-index: 2;
+
+        > .option {
+            display: block;
+
+            &:not(:first-of-type) {
+                border-top: convert-px(1) solid get-color(darkest-accent);
+            }
+
+            // states
+            &:hover {
+                &:not(.option-title) {
+                    background-color: get-color(darkest-accent);
+                }
+            }
+
+            &[show] {
+                &:not(.option-title) {
+                    background-color: get-color(darkest-accent);
+                }
+            }
+        }
+
+        > .select-icon {
+            border-top: 0;
+            border-left: convert-px(11) solid transparent;
+            border-right: convert-px(11) solid transparent;
+            border-bottom: convert-px(11) solid #FFC0CB;
+        }
+    }
+}
