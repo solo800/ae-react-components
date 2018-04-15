@@ -1,5 +1,7 @@
 /* eslint no-unused-vars: 0 */
 const React = require('react');
+
+// lp-util and it's typeChecker method are not included here, this library however was written primarily by solo800
 const typeChecker = require('../../javascript/modules/lp-util')().typeChecker;
 
 /**
@@ -44,6 +46,13 @@ class Select extends React.Component {
     }
 
     // custom methods
+    /**
+     * sets the height of the parent element of the select when it is clicked so as to ensure the container does not expand to 
+     * the size of all the options but instead retains its originally rendered height
+     * sets the open state of the element
+     * sets the option that was selected (selected option is set but it will be the same as the title of the select if this is
+     * an initial click on the select to open it or an option is already selected
+     */
     handleClick (event) {
         event.preventDefault();
 
@@ -60,6 +69,10 @@ class Select extends React.Component {
         this.onClickCallback(event);
     }
 
+    /**
+     * a method that can be used by the component utilizing the select component to run code without affecting the native behavior
+     * of the select component
+     */
     onClickCallback (event) {
         // pass
     }
@@ -72,11 +85,13 @@ class Select extends React.Component {
     }
 
     // lifecycle methods
+    // if the select element is receiving an updated set of options make sure that none of them are selected
     componentWillReceiveProps (newProps) {
         // make sure to reset the selected option
         this.setState({selectedOption: ''});
     }
 
+    // saves the initially rendered height of the select so that it can be used later to lock the height of the select component
     componentDidMount () {
         this.setState({
             parentElement: this.self.parentElement,
